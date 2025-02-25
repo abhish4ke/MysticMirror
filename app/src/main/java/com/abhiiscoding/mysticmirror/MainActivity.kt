@@ -12,21 +12,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.abhiiscoding.mysticmirror.RoomDB.NotesViewModel
 import com.abhiiscoding.mysticmirror.homeScreen.HomeScreen
 import com.abhiiscoding.mysticmirror.ui.theme.MysticMirrorTheme
 
 class MainActivity : ComponentActivity() {
-    private val homeScreenViewModel: HomeScreenViewModel by viewModels()
+    private lateinit var homeScreenViewModel: HomeScreenViewModel
+    private lateinit var noteViewModel: NotesViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            homeScreenViewModel = viewModel()
+            noteViewModel = viewModel()
             val navController = rememberNavController()
             MysticMirrorTheme {
                 Surface(
@@ -45,7 +50,7 @@ class MainActivity : ComponentActivity() {
             startDestination = Screens.HomeScreen.route
         ) {
             composable(Screens.HomeScreen.route) {
-                HomeScreen(homeScreenViewModel = homeScreenViewModel)
+                HomeScreen(noteViewModel = noteViewModel)
             }
         }
     }
