@@ -50,21 +50,10 @@ fun HomeScreen(noteViewModel: NotesViewModel) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            //Dependency issue
-            items(notes) { noteItem ->
-                Column{
-                    Text(
-                        text = "",
-                        fontSize = 20.sp,
-                        color = Color.Black
-                    )
-                    Text(
-                        text = "",
-                        fontSize = 16.sp,
-                        color = Color.Gray
-                    )
-                }
-            }
+            //Import issue
+//            items(notes) { note ->
+//                Text(text = "", fontSize = 20.sp, color = Color.Black)
+//            }
         }
 
         // BasicTextField for entering the new note content
