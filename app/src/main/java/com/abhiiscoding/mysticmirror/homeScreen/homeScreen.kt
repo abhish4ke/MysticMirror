@@ -3,12 +3,17 @@ package com.abhiiscoding.mysticmirror.homeScreen
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material3.Button
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -39,40 +44,53 @@ fun HomeScreen(noteViewModel: NotesViewModel) {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(16.dp),
+            .padding(36.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
-        // LazyColumn to display all the notes
         LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier.weight(1f)
         ) {
-            //Import issue
-//            items(notes) { note ->
-//                Text(text = "", fontSize = 20.sp, color = Color.Black)
-//            }
+            items(notes) { note ->
+                Text(
+                    text = note.title,
+                    fontSize = 10.sp,
+                    color = Color.Black,
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+                Text(
+                    text = note.content,
+                    fontSize = 20.sp,
+                    color = Color.Black,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+                Divider(
+                    color = Color.Black,
+                    thickness = 1.dp,
+                    modifier = Modifier.padding(top = 8.dp)
+                )
+            }
         }
-
         // BasicTextField for entering the new note content
-        BasicTextField(
+        OutlinedTextField(
             value = noteContent,
             onValueChange = { noteContent = it },
+            label = { Text("Enter note content") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
             textStyle = TextStyle(fontSize = 20.sp, color = Color.Black)
         )
 
+
         // Button to add the note using the content from the BasicTextField
         Button(
             onClick = {
                 scope.launch {
                     if (noteContent.isNotEmpty()) {
-                        noteViewModel.insertNote(Note(title = "New Note", content = noteContent))
-                        noteContent = "" // Clear the input field after inserting.
+                        noteViewModel.insertNote(Note(title = "Note:", content = noteContent))
+                        noteContent = ""
+                        noteViewModel.getAllNotes()
                     }
                 }
             },

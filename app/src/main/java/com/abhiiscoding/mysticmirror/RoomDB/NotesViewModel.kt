@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 
 class NotesViewModel(private val noteRepository: NoteRepository = NotesGraph.noteRepository) : ViewModel(){
 
-    private val _allNotes = MutableStateFlow<Note?>(null)
-    val allNotes: StateFlow<Note?> = _allNotes.asStateFlow()
+    private var _allNotes = MutableStateFlow<List<Note>>(emptyList())
+    val allNotes: StateFlow<List<Note>> = _allNotes
 
 
     init {
@@ -25,6 +25,7 @@ class NotesViewModel(private val noteRepository: NoteRepository = NotesGraph.not
     }
 
     suspend fun getAllNotes(): List<Note> {
+        _allNotes.value = noteRepository.getAllNotes()
         return noteRepository.getAllNotes()
     }
 
